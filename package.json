@@ -1,0 +1,14 @@
+{
+  "name": "catman-blogger-rest",
+  "version": "0.0.1",
+  "description": "Catman Blogger REST API Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "catman0745",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
