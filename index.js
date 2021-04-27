@@ -1,11 +1,12 @@
-const express = require("express");
-const app = express();
+const express = require('express')
 
-app.get("/", (_, res) => {
-  res.send("catman-blogger-rest");
-});
+const app = express()
 
-const port = 5000;
+app.get('/', (_, res) => {
+  res.send('catman-blogger-rest')
+})
+
+const port = 5000
 app.listen(port, () => {
-  console.log(`Running on port ${port}`);
-});
+  console.log(`Running on port ${port}`)
+})
