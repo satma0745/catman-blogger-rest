@@ -1,65 +1,59 @@
 const express = require('express')
-const { Blog } = require('../models')
+const service = require('../services/BlogsService')
 
 const router = express.Router()
 
 router.get('/', async (req, res) => {
   try {
-    const blogs = await Blog.find({ ownerId: req.query.owner })
-    res.status(200).json(blogs)
+    const result = await service.getMany({ ownerId: req.query.owner })
+    res.status(200).json(result)
   } catch (error) {
     res
-      .status(400)
+      .status(500)
       .json({ message: 'Error occurred while retrieving blogs', error })
   }
 })
 
 router.get('/:blogId', async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.blogId)
-    res.status(200).json(blog)
+    const result = await service.getSingle(req.params.blogId)
+    res.status(200).json(result)
   } catch (error) {
     res
-      .status(400)
+      .status(500)
       .json({ message: 'Error occurred while retrieving blog', error })
   }
 })
 
 router.post('/', async (req, res) => {
   try {
-    const blog = new Blog({ ...req.body })
-    await blog.save()
-
-    res.status(201).json(blog)
+    const result = await service.create(req.body)
+    res.status(200).json(result)
   } catch (error) {
     res
-      .status(400)
+      .status(500)
       .json({ message: 'Error occurred while creating blog', error })
   }
 })
 
 router.put('/:blogId', async (req, res) => {
   try {
-    await Blog.findByIdAndUpdate(
-      { _id: req.params.blogId },
-      { $set: req.body },
-      { useFindAndModify: false }
-    )
-    res.sendStatus(204)
+    const result = await service.update(req.params.blogId, req.body)
+    res.status(200).json(result)
   } catch (error) {
     res
-      .status(400)
+      .status(500)
       .json({ message: 'Error occurred while updating blog', error })
   }
 })
 
 router.delete('/:blogId', async (req, res) => {
   try {
-    const blog = await Blog.findByIdAndDelete(req.params.blogId)
-    res.status(200).json(blog)
+    const result = await service.delete(req.params.blogId)
+    res.status(200).json(result)
   } catch (error) {
     res
-      .status(400)
+      .status(500)
       .json({ message: 'Error occurred while deleting blog', error })
   }
 })
