@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+const { database } = require('./config')
 const routers = require('./routers')
 
 dotenv.config()
@@ -9,7 +10,9 @@ app.use(express.json())
 
 app.use('/blogs', routers.blogs)
 
-const port = process.env.PORT
-app.listen(port, () => {
-  console.log(`Running on port ${port}`)
+database.connect(() => {
+  const port = process.env.PORT
+  app.listen(port, () => {
+    console.log(`Running on port ${port}`)
+  })
 })
