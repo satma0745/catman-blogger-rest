@@ -1,1 +1,1 @@
-module.exports.BlogsService = require('./BlogsService')
+module.exports.BlogsService = require('./blogs')

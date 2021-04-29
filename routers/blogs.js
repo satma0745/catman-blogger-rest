@@ -1,5 +1,5 @@
 const express = require('express')
-const service = require('../services/BlogsService')
+const service = require('../services/blogs')
 
 const router = express.Router()
 
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:blogId', async (req, res) => {
   try {
-    const result = await service.getSingle(req.params.blogId)
+    const result = await service.getSingle({ id: req.params.blogId })
     res.status(200).json(result)
   } catch (error) {
     res
@@ -27,7 +27,7 @@ router.get('/:blogId', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const result = await service.create(req.body)
+    const result = await service.create({ blog: req.body })
     res.status(200).json(result)
   } catch (error) {
     res
@@ -38,7 +38,10 @@ router.post('/', async (req, res) => {
 
 router.put('/:blogId', async (req, res) => {
   try {
-    const result = await service.update(req.params.blogId, req.body)
+    const result = await service.update({
+      id: req.params.blogId,
+      blog: req.body,
+    })
     res.status(200).json(result)
   } catch (error) {
     res
@@ -49,7 +52,7 @@ router.put('/:blogId', async (req, res) => {
 
 router.delete('/:blogId', async (req, res) => {
   try {
-    const result = await service.delete(req.params.blogId)
+    const result = await service.delete({ id: req.params.blogId })
     res.status(200).json(result)
   } catch (error) {
     res
