@@ -1,6 +1,6 @@
 {
   "name": "catman-blogger-rest",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Catman Blogger REST API Backend",
   "main": "index.js",
   "scripts": {

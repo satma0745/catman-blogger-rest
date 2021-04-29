@@ -14,7 +14,7 @@ const notFoundFailure = (message) =>
     message,
   })
 
-const validationFauilure = (errors) =>
+const validationFailure = (errors) =>
   failure({
     validation: true,
     errors,
@@ -24,5 +24,5 @@ module.exports = {
   success,
   failure,
   notFoundFailure,
-  validationFauilure,
+  validationFailure,
 }
