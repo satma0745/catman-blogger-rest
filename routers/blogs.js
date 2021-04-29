@@ -1,64 +1,37 @@
 const express = require('express')
 const service = require('../services/blogs')
+const { handler } = require('./utils')
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
-  try {
-    const result = await service.getMany({ ownerId: req.query.owner })
-    res.status(200).json(result)
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error occurred while retrieving blogs', error })
-  }
-})
+router.get(
+  '/',
+  handler((req) => service.getMany({ ownerId: req.query.owner }))
+)
 
-router.get('/:blogId', async (req, res) => {
-  try {
-    const result = await service.getSingle({ id: req.params.blogId })
-    res.status(200).json(result)
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error occurred while retrieving blog', error })
-  }
-})
+router.get(
+  '/:blogId',
+  handler((req) => service.getSingle({ id: req.params.blogId }))
+)
 
-router.post('/', async (req, res) => {
-  try {
-    const result = await service.create({ blog: req.body })
-    res.status(200).json(result)
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error occurred while creating blog', error })
-  }
-})
+router.post(
+  '/',
+  handler((req) => service.create({ blog: req.body }))
+)
 
-router.put('/:blogId', async (req, res) => {
-  try {
-    const result = await service.update({
+router.put(
+  '/:blogId',
+  handler((req) =>
+    service.update({
       id: req.params.blogId,
       blog: req.body,
     })
-    res.status(200).json(result)
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error occurred while updating blog', error })
-  }
-})
+  )
+)
 
-router.delete('/:blogId', async (req, res) => {
-  try {
-    const result = await service.delete({ id: req.params.blogId })
-    res.status(200).json(result)
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error occurred while deleting blog', error })
-  }
-})
+router.delete(
+  '/:blogId',
+  handler((req) => service.delete({ id: req.params.blogId }))
+)
 
 module.exports = router
