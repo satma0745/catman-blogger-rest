@@ -5,10 +5,14 @@ const blogSchema = Schema(
     title: {
       type: Schema.Types.String,
       required: true,
+      trim: true,
+      maxLength: 150,
     },
     description: {
       type: Schema.Types.String,
       required: true,
+      trim: true,
+      maxLength: 500,
     },
     ownerId: {
       type: Schema.Types.ObjectId,
