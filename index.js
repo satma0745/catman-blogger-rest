@@ -9,6 +9,7 @@ const app = express()
 app.use(express.json())
 
 app.use('/blogs', routers.blogs)
+app.use('/users', routers.users)
 
 database.connect(() => {
   const port = process.env.PORT

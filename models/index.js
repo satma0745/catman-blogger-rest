@@ -1,1 +1,4 @@
-module.exports.Blog = require('./Blog')
+const Blog = require('./Blog')
+const User = require('./User')
+
+module.exports = { Blog, User }

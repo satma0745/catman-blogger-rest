@@ -14,7 +14,11 @@ const connect = (onSuccess = () => {}) => {
   })
 
   const uri = process.env.MONGO_DB_CONNECTION_STRING
-  const options = { useNewUrlParser: true, useUnifiedTopology: true }
+  const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  }
   return mongoose.connect(uri, options)
 }
 

@@ -20,9 +20,13 @@ const validationFailure = (errors) =>
     errors,
   })
 
+const fieldValidationFailure = ({ path, type, message }) =>
+  validationFailure([{ path, type, message }])
+
 module.exports = {
   success,
   failure,
   notFoundFailure,
   validationFailure,
+  fieldValidationFailure,
 }

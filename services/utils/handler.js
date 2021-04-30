@@ -14,7 +14,11 @@ const handler = ({ handle, schema }) => async (query) => {
   } catch (error) {
     if (error.name === 'ValidationError') {
       return validationFailure(
-        error.details.map(({ message, type }) => ({ message, type }))
+        error.details.map(({ path, type, message }) => ({
+          path,
+          type,
+          message,
+        }))
       )
     }
 
