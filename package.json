@@ -1,10 +1,10 @@
 {
   "name": "catman-blogger-rest",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Catman Blogger REST API Backend",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon src/index.js"
   },
   "author": "catman0745",
   "license": "ISC",

@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const { database } = require('./config')
 const routers = require('./routers')
 
-dotenv.config()
+dotenv.config({ path: `${__dirname}/../.env` })
 
 const app = express()
 app.use(express.json())
