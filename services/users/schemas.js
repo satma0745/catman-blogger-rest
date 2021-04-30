@@ -24,24 +24,38 @@ const getSingleQuery = Joi.object().keys({
 })
 
 const registerQuery = Joi.object().keys({
-  user: Joi.object().keys({
-    username: rules.username().required(),
-    password: rules.password().required(),
-    displayName: rules.displayName().required(),
-  }),
+  user: Joi.object()
+    .keys({
+      username: rules.username().required(),
+      password: rules.password().required(),
+      displayName: rules.displayName().required(),
+    })
+    .required(),
 })
 
 const updateQuery = Joi.object().keys({
   id: rules.id().required(),
-  user: Joi.object().keys({
-    username: rules.username().required(),
-    password: rules.password().required(),
-    displayName: rules.displayName().required(),
-  }),
+  user: Joi.object()
+    .keys({
+      username: rules.username().required(),
+      password: rules.password().required(),
+      displayName: rules.displayName().required(),
+    })
+    .required(),
+  requestor: Joi.object()
+    .keys({
+      id: rules.id().required(),
+    })
+    .required(),
 })
 
 const deleteQuery = Joi.object().keys({
   id: rules.id().required(),
+  requestor: Joi.object()
+    .keys({
+      id: rules.id().required(),
+    })
+    .required(),
 })
 
 module.exports = {

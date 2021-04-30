@@ -1,7 +1,12 @@
 const { User, Blog } = require('../../models')
 const {
   handler,
-  responses: { success, notFoundFailure, fieldValidationFailure },
+  responses: {
+    success,
+    notFoundFailure,
+    fieldValidationFailure,
+    accessViolationFailure,
+  },
 } = require('../utils')
 const schemas = require('./schemas')
 
@@ -38,6 +43,10 @@ const service = {
 
   update: handler({
     handle: async (query) => {
+      if (query.requestor.id !== query.id) {
+        return accessViolationFailure()
+      }
+
       const user = await User.findById(query.id)
       if (!user) {
         return notFoundFailure(`User with id ${query.id} was not found`)
@@ -59,6 +68,10 @@ const service = {
 
   delete: handler({
     handle: async (query) => {
+      if (query.requestor.id !== query.id) {
+        return accessViolationFailure()
+      }
+
       const user = await User.findById(query.id)
       if (!user) {
         return notFoundFailure(`User with id ${query.id} was not found`)

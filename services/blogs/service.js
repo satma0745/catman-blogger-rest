@@ -1,7 +1,7 @@
 const { User, Blog } = require('../../models')
 const {
   handler,
-  responses: { success, notFoundFailure },
+  responses: { success, notFoundFailure, accessViolationFailure },
 } = require('../utils')
 const schemas = require('./schemas')
 
@@ -18,14 +18,14 @@ const service = {
 
   create: handler({
     handle: async (query) => {
-      const user = await User.findById(query.blog.ownerId)
+      const user = await User.findById(query.requestor.id)
       if (!user) {
         return notFoundFailure(
-          `User with id ${query.blog.ownerId} was not found`
+          `User with id ${query.requestor.id} was not found`
         )
       }
 
-      const blog = new Blog(query.blog)
+      const blog = new Blog({ ...query.blog, ownerId: user.id })
       await blog.save()
 
       user.blogs.push(blog.id)
@@ -38,9 +38,13 @@ const service = {
 
   update: handler({
     handle: async (query) => {
-      const old = await Blog.findById(query.id)
-      if (!old) {
+      const blog = await Blog.findById(query.id)
+      if (!blog) {
         return notFoundFailure(`Blog with id ${query.id} was not found`)
+      }
+
+      if (!blog.ownerId.equals(query.requestor.id)) {
+        return accessViolationFailure()
       }
 
       await Blog.updateOne({ _id: query.id }, { $set: query.blog })
@@ -54,6 +58,10 @@ const service = {
       const blog = await Blog.findById(query.id)
       if (!blog) {
         return notFoundFailure(`Blog with id ${query.id} was not found`)
+      }
+
+      if (!blog.ownerId.equals(query.requestor.id)) {
+        return accessViolationFailure()
       }
 
       const user = await User.findById(blog.ownerId)

@@ -23,10 +23,13 @@ const validationFailure = (errors) =>
 const fieldValidationFailure = ({ path, type, message }) =>
   validationFailure([{ path, type, message }])
 
+const accessViolationFailure = () => failure({ accessViolation: true })
+
 module.exports = {
   success,
   failure,
   notFoundFailure,
   validationFailure,
   fieldValidationFailure,
+  accessViolationFailure,
 }

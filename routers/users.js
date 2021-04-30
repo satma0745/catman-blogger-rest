@@ -1,4 +1,5 @@
 const express = require('express')
+const { jwtAuthMiddleware } = require('../middlewares')
 const service = require('../services/users')
 const { handler } = require('./utils')
 
@@ -16,17 +17,25 @@ router.post(
 
 router.put(
   '/:userId',
+  jwtAuthMiddleware,
   handler((req) =>
     service.update({
       id: req.params.userId,
       user: req.body,
+      requestor: req.currentUser,
     })
   )
 )
 
 router.delete(
   '/:userId',
-  handler((req) => service.delete({ id: req.params.userId }))
+  jwtAuthMiddleware,
+  handler((req) =>
+    service.delete({
+      id: req.params.userId,
+      requestor: req.currentUser,
+    })
+  )
 )
 
 module.exports = router

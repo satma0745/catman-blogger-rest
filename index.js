@@ -10,6 +10,7 @@ app.use(express.json())
 
 app.use('/blogs', routers.blogs)
 app.use('/users', routers.users)
+app.use('/auth', routers.auth)
 
 database.connect(() => {
   const port = process.env.PORT
