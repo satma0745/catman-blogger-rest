@@ -1,4 +1,4 @@
-const { Blog } = require('../../models')
+const { User, Blog } = require('../../models')
 const {
   handler,
   responses: { success, notFoundFailure },
@@ -18,10 +18,20 @@ const service = {
 
   create: handler({
     handle: async (query) => {
-      const created = new Blog(query.blog)
-      await created.save()
+      const user = await User.findById(query.blog.ownerId)
+      if (!user) {
+        return notFoundFailure(
+          `User with id ${query.blog.ownerId} was not found`
+        )
+      }
 
-      return success(created)
+      const blog = new Blog(query.blog)
+      await blog.save()
+
+      user.blogs.push(blog.id)
+      await user.save()
+
+      return success(blog)
     },
     schema: schemas.createQuery,
   }),
@@ -45,6 +55,10 @@ const service = {
       if (!blog) {
         return notFoundFailure(`Blog with id ${query.id} was not found`)
       }
+
+      const user = await User.findById(blog.ownerId)
+      user.blogs = user.blogs.filter((blogId) => !blogId.equals(blog._id))
+      await user.save()
 
       await Blog.deleteOne({ _id: query.id })
       return success()

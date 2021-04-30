@@ -1,4 +1,4 @@
-const { User } = require('../../models')
+const { User, Blog } = require('../../models')
 const {
   handler,
   responses: { success, notFoundFailure, fieldValidationFailure },
@@ -63,6 +63,8 @@ const service = {
       if (!user) {
         return notFoundFailure(`User with id ${query.id} was not found`)
       }
+
+      await Blog.deleteMany({ ownerId: user.id })
 
       await User.deleteOne({ _id: query.id })
       return success()

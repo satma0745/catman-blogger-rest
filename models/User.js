@@ -25,6 +25,12 @@ const userSchema = Schema({
     trim: true,
     maxLength: 100,
   },
+  blogs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Blog',
+    },
+  ],
 })
 
 userSchema.statics.usernameIsTaken = function usernameIsTaken(username) {

@@ -16,12 +16,13 @@ const blogSchema = Schema(
     },
     ownerId: {
       type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },
   { timestamps: true }
 )
 
-const Blog = model('blogs', blogSchema)
+const Blog = model('Blog', blogSchema)
 
 module.exports = Blog
