@@ -1,8 +1,6 @@
-#Migration #001 - Introduce blogs
+# #001 - Introduce blogs
 
-Add blogs collection.
-Blog schema:
-
+Add `blogs` collection according to the following schema:
 ```js
 Schema(
   {

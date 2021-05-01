@@ -1,8 +1,6 @@
-# Introduce users
+# #003 - Introduce users
 
-Add users collection.
-User schema:
-
+Add `users` collection according to the following schema:
 ```js
 Schema({
   username: {
