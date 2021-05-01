@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post(
   '/',
-  handler((req) => service.authorize({ auth: req.body }))
+  ...handler({ handle: (req) => service.authorize({ auth: req.body }) })
 )
 
 module.exports = router
