@@ -33,6 +33,13 @@ const service = {
         })
       }
 
+      if (
+        query.user.role === 'moderator' &&
+        !(await User.isModerator(query.requestor?.id))
+      ) {
+        return accessViolationFailure()
+      }
+
       const user = new User(query.user)
       await user.save()
 
@@ -43,7 +50,10 @@ const service = {
 
   update: handler({
     handle: async (query) => {
-      if (query.requestor.id !== query.id) {
+      if (
+        query.requestor.id !== query.id &&
+        !(await User.isModerator(query.requestor?.id))
+      ) {
         return accessViolationFailure()
       }
 
@@ -68,7 +78,10 @@ const service = {
 
   delete: handler({
     handle: async (query) => {
-      if (query.requestor.id !== query.id) {
+      if (
+        query.requestor.id !== query.id &&
+        !(await User.isModerator(query.requestor?.id))
+      ) {
         return accessViolationFailure()
       }
 

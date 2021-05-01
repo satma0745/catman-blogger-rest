@@ -11,7 +11,13 @@ router.get(
 
 router.post(
   '/',
-  ...handler({ handle: (req) => service.register({ user: req.body }) })
+  ...handler({
+    handle: (req) =>
+      service.register({
+        user: req.body,
+        requestor: req.currentUser,
+      }),
+  })
 )
 
 router.put(

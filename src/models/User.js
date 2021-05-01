@@ -25,6 +25,12 @@ const userSchema = Schema({
     trim: true,
     maxLength: 100,
   },
+  role: {
+    type: Schema.Types.String,
+    required: true,
+    enum: ['user', 'moderator'],
+    default: 'user',
+  },
   blogs: [
     {
       type: Schema.Types.ObjectId,
@@ -35,6 +41,11 @@ const userSchema = Schema({
 
 userSchema.statics.usernameIsTaken = function usernameIsTaken(username) {
   return this.exists({ username })
+}
+
+userSchema.statics.isModerator = async function isModerator(id) {
+  const user = await this.findById(id)
+  return user?.role === 'moderator'
 }
 
 userSchema.methods.usernameIsTaken = function usernameIsTaken(username) {

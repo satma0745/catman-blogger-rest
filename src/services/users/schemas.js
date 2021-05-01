@@ -17,6 +17,7 @@ const rules = {
       // Alphanumeric with underscores: requires underscores, digits, lowercase and uppercase letters
       .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*_)[A-Za-z0-9_]*$/),
   displayName: () => Joi.string().trim().max(100),
+  role: () => Joi.string().valid('user', 'moderator'),
 }
 
 const getSingleQuery = Joi.object().keys({
@@ -29,8 +30,12 @@ const registerQuery = Joi.object().keys({
       username: rules.username().required(),
       password: rules.password().required(),
       displayName: rules.displayName().required(),
+      role: rules.role().default('user'),
     })
     .required(),
+  requestor: Joi.object().keys({
+    id: rules.id().required(),
+  }),
 })
 
 const updateQuery = Joi.object().keys({

@@ -43,7 +43,10 @@ const service = {
         return notFoundFailure(`Blog with id ${query.id} was not found`)
       }
 
-      if (!blog.ownerId.equals(query.requestor.id)) {
+      if (
+        !blog.ownerId.equals(query.requestor.id) &&
+        !(await User.isModerator(query.requestor.id))
+      ) {
         return accessViolationFailure()
       }
 
@@ -60,7 +63,10 @@ const service = {
         return notFoundFailure(`Blog with id ${query.id} was not found`)
       }
 
-      if (!blog.ownerId.equals(query.requestor.id)) {
+      if (
+        !blog.ownerId.equals(query.requestor.id) &&
+        !(await User.isModerator(query.requestor.id))
+      ) {
         return accessViolationFailure()
       }
 
